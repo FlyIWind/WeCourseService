@@ -15,7 +15,7 @@ type userlogin struct {
 	Week     int
 }
 
-var build string = "202007251131"
+var build string = "202007271559"
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -57,6 +57,9 @@ func StartWebSocket() {
 			}
 			if u.Type == "photo" {
 				_ = conn.WriteMessage(msgType, []byte(GetPhoto(u.UserName, u.PassWord)))
+			}
+			if u.Type == "grade" {
+				_ = conn.WriteMessage(msgType, []byte(GetGrade(u.UserName, u.PassWord)))
 			}
 		}
 

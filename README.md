@@ -25,7 +25,7 @@
 }
 ```
 
-Type为必填项，表明请求类型 可选内容为：login（验证登录）、week（获取当前教学周）、teacher（获取教师列表）、account（获取学籍信息）、course（获取课程表）、photo（获取学籍照片） 日后还会增加更多接口例如获取考试安排、获取成绩
+Type为必填项，表明请求类型 可选内容为：login（验证登录）、week（获取当前教学周）、teacher（获取教师列表）、account（获取学籍信息）、course（获取课程表）、photo（获取学籍照片）、grade（获取成绩） 日后还会增加更多接口例如获取考试安排、获取成绩
 
 UserName为教务系统登陆账号，除了获取教学周外都需要提供
 
@@ -83,28 +83,10 @@ Week为需要获取的教学周 仅在获取课表时需要提供
 		"CourseTeacher": "王滢"
 	},
 	{
-		"CourseID": "A005217-2.06",
-		"CourseName": "社会心理学",
-		"CourseCredit": "2",
-		"CourseTeacher": "刘悦"
-	},
-	{
 		"CourseID": "A080311-4.11",
 		"CourseName": "JavaScript程序设计",
 		"CourseCredit": "4",
 		"CourseTeacher": "薛现伟"
-	},
-	{
-		"CourseID": "A080910-6.09",
-		"CourseName": "HTML5混合App开发",
-		"CourseCredit": "6",
-		"CourseTeacher": "王永乾"
-	},
-	{
-		"CourseID": "A080913-6.09",
-		"CourseName": "PHP动态网站开发",
-		"CourseCredit": "6",
-		"CourseTeacher": "郑春光"
 	}
 ]
 ```
@@ -185,23 +167,6 @@ FullName为中文全名，EnglishName为英文名称（留学生等特殊情况�
 		]
 	},
 	{
-		"CourseID": "14290(A080311-4.11)",
-		"CourseName": "JavaScript程序设计",
-		"RoomID": "1556",
-		"RoomName": "311,影视多媒体实训室",
-		"Weeks": "01111111111111111110000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 1,
-				"TimeOfTheDay": 2
-			},
-			{
-				"DayOfTheWeek": 1,
-				"TimeOfTheDay": 3
-			}
-		]
-	},
-	{
 		"CourseID": "19827(A080910-6.09)",
 		"CourseName": "HTML5混合App开发",
 		"RoomID": "-1",
@@ -215,193 +180,6 @@ FullName为中文全名，EnglishName为英文名称（留学生等特殊情况�
 			{
 				"DayOfTheWeek": 2,
 				"TimeOfTheDay": 1
-			}
-		]
-	},
-	{
-		"CourseID": "19827(A080910-6.09)",
-		"CourseName": "HTML5混合App开发",
-		"RoomID": "-1",
-		"RoomName": "停课",
-		"Weeks": "00000000000000000110000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 2,
-				"TimeOfTheDay": 0
-			},
-			{
-				"DayOfTheWeek": 2,
-				"TimeOfTheDay": 1
-			}
-		]
-	},
-	{
-		"CourseID": "19827(A080910-6.09)",
-		"CourseName": "HTML5混合App开发",
-		"RoomID": "1558",
-		"RoomName": "317,信息决策实训室j",
-		"Weeks": "01111111111111111110000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 3,
-				"TimeOfTheDay": 0
-			},
-			{
-				"DayOfTheWeek": 3,
-				"TimeOfTheDay": 1
-			}
-		]
-	},
-	{
-		"CourseID": "19827(A080910-6.09)",
-		"CourseName": "HTML5混合App开发",
-		"RoomID": "1658",
-		"RoomName": "303小,计算机基础实训室(二)",
-		"Weeks": "01111111111101111000000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 2,
-				"TimeOfTheDay": 0
-			},
-			{
-				"DayOfTheWeek": 2,
-				"TimeOfTheDay": 1
-			}
-		]
-	},
-	{
-		"CourseID": "19827(A080910-6.09)",
-		"CourseName": "HTML5混合App开发",
-		"RoomID": "1729",
-		"RoomName": "304小,计算机基础实训室(三)",
-		"Weeks": "01111111111111111110000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 0,
-				"TimeOfTheDay": 0
-			},
-			{
-				"DayOfTheWeek": 0,
-				"TimeOfTheDay": 1
-			}
-		]
-	},
-	{
-		"CourseID": "19803(A080913-6.09)",
-		"CourseName": "PHP动态网站开发",
-		"RoomID": "1554",
-		"RoomName": "308,软件开发实训室",
-		"Weeks": "00000000000000010000000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 1,
-				"TimeOfTheDay": 4
-			},
-			{
-				"DayOfTheWeek": 1,
-				"TimeOfTheDay": 5
-			}
-		]
-	},
-	{
-		"CourseID": "19803(A080913-6.09)",
-		"CourseName": "PHP动态网站开发",
-		"RoomID": "1553",
-		"RoomName": "304大,计算机基础实训室(三)",
-		"Weeks": "00000000000000010000000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 4,
-				"TimeOfTheDay": 0
-			},
-			{
-				"DayOfTheWeek": 4,
-				"TimeOfTheDay": 1
-			}
-		]
-	},
-	{
-		"CourseID": "19803(A080913-6.09)",
-		"CourseName": "PHP动态网站开发",
-		"RoomID": "1457",
-		"RoomName": "本部E202",
-		"Weeks": "00000000000000001000000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 2,
-				"TimeOfTheDay": 8
-			},
-			{
-				"DayOfTheWeek": 2,
-				"TimeOfTheDay": 9
-			}
-		]
-	},
-	{
-		"CourseID": "19803(A080913-6.09)",
-		"CourseName": "PHP动态网站开发",
-		"RoomID": "1729",
-		"RoomName": "304小,计算机基础实训室(三)",
-		"Weeks": "01111111111011111110000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 4,
-				"TimeOfTheDay": 4
-			},
-			{
-				"DayOfTheWeek": 4,
-				"TimeOfTheDay": 5
-			}
-		]
-	},
-	{
-		"CourseID": "19803(A080913-6.09)",
-		"CourseName": "PHP动态网站开发",
-		"RoomID": "1558",
-		"RoomName": "317,信息决策实训室j",
-		"Weeks": "01111111111111011110000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 3,
-				"TimeOfTheDay": 2
-			},
-			{
-				"DayOfTheWeek": 3,
-				"TimeOfTheDay": 3
-			}
-		]
-	},
-	{
-		"CourseID": "19803(A080913-6.09)",
-		"CourseName": "PHP动态网站开发",
-		"RoomID": "1613",
-		"RoomName": "309,计算机基础实训室",
-		"Weeks": "01111111111101111110000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 2,
-				"TimeOfTheDay": 4
-			},
-			{
-				"DayOfTheWeek": 2,
-				"TimeOfTheDay": 5
-			}
-		]
-	},
-	{
-		"CourseID": "8892(A000032-.5.11)",
-		"CourseName": "就业指导实务",
-		"RoomID": "1487",
-		"RoomName": "本部E206",
-		"Weeks": "01111000000000000000000000000000000000000000000000000",
-		"CourseTimes": [
-			{
-				"DayOfTheWeek": 2,
-				"TimeOfTheDay": 2
-			},
-			{
-				"DayOfTheWeek": 2,
-				"TimeOfTheDay": 3
 			}
 		]
 	}
@@ -424,13 +202,6 @@ FullName为中文全名，EnglishName为英文名称（留学生等特殊情况�
 		"TimeOfTheDay": "5,6"
 	},
 	{
-		"CourseName": "JavaScript程序设计",
-		"TeacherName": "薛现伟",
-		"RoomName": "311,影视多媒体实训室",
-		"DayOfTheWeek": 1,
-		"TimeOfTheDay": "3,4"
-	},
-	{
 		"CourseName": "HTML5混合App开发",
 		"TeacherName": "王永乾",
 		"RoomName": "317,信息决策实训室j",
@@ -438,39 +209,11 @@ FullName为中文全名，EnglishName为英文名称（留学生等特殊情况�
 		"TimeOfTheDay": "1,2"
 	},
 	{
-		"CourseName": "HTML5混合App开发",
-		"TeacherName": "王永乾",
-		"RoomName": "303小,计算机基础实训室(二)",
-		"DayOfTheWeek": 2,
-		"TimeOfTheDay": "1,2"
-	},
-	{
-		"CourseName": "HTML5混合App开发",
-		"TeacherName": "王永乾",
-		"RoomName": "304小,计算机基础实训室(三)",
-		"DayOfTheWeek": 0,
-		"TimeOfTheDay": "1,2"
-	},
-	{
-		"CourseName": "PHP动态网站开发",
-		"TeacherName": "郑春光",
-		"RoomName": "304小,计算机基础实训室(三)",
-		"DayOfTheWeek": 4,
-		"TimeOfTheDay": "5,6"
-	},
-	{
 		"CourseName": "PHP动态网站开发",
 		"TeacherName": "郑春光",
 		"RoomName": "317,信息决策实训室j",
 		"DayOfTheWeek": 3,
 		"TimeOfTheDay": "3,4"
-	},
-	{
-		"CourseName": "PHP动态网站开发",
-		"TeacherName": "郑春光",
-		"RoomName": "309,计算机基础实训室",
-		"DayOfTheWeek": 2,
-		"TimeOfTheDay": "5,6"
 	},
 	{
 		"CourseName": "就业指导实务",
@@ -505,6 +248,52 @@ FullName为中文全名，EnglishName为英文名称（留学生等特殊情况�
 ```
 data:image/jpg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/...NFaXMND/9k=
 ```
+
+### 7、获取成绩
+
+本功能也算是一个比较常用的功能，毕竟关乎着自己是否挂科 为了方便同学们查询自己的成绩才有的这个功能
+请求格式是这样的
+
+```json
+{
+    "Type":"grade",
+    "UserName":"201808830303",
+    "PassWord":"7355608"
+}
+```
+返回结果示例
+
+```json
+[
+	{
+		"CourseID": "A000003-4",
+		"CourseName": "大学英语（一）A",
+		"CourseTerm": "2018-2019 1",
+		"CourseCredit": "4",
+		"CourseGrade": "64",
+		"GradePoint": "1.5"
+	},
+	{
+		"CourseID": "A080011-6",
+		"CourseName": "Java程序设计",
+		"CourseTerm": "2018-2019 2",
+		"CourseCredit": "6",
+		"CourseGrade": "95",
+		"GradePoint": "4.5"
+	},
+	{
+		"CourseID": "A080310-6",
+		"CourseName": "JavaWeb程序设计",
+		"CourseTerm": "2019-2020 1",
+		"CourseCredit": "6",
+		"CourseGrade": "93",
+		"GradePoint": "4.5"
+	}
+]
+```
+
+返回的子项全部为String类型（教务系统的返回结果十分奇葩，天然反爬（一时间写不出合适的正则表达式）），CourseID和先前几个接口一样，都是表示课程ID(不过这个和教师列表的不一样，因为这个是院系课程统一的编号，而教师列表的是每个老师的课程ID都不一样) CourseName是课程名称 CourseTerm代表学期 例如2019-2020 1就代表是2019-2020学年第一学期 CourseCredit代表学分 CourseGrade代表最终成绩 GradePoint代表绩点
+
 
 ## 版权协议
 
