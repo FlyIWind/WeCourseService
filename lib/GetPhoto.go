@@ -4,6 +4,7 @@ import (
 	"crypto/sha1"
 	"encoding/base64"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -18,17 +19,19 @@ func GetPhoto(UserName, PassWord string) string {
 	USER := UserName
 	PASS := PassWord
 	conf := ReadConfig()
+	var myPhotoResult PhotoResult
 	// Cookie自动维护
 	cookieJar, err := cookiejar.New(nil)
 	if err != nil {
 		fmt.Println("ERROR_0: ", err.Error())
 		//return
 	}
+	myPhotoResult.Type = "photo"
 	var client http.Client
 	client.Jar = cookieJar
 
 	// 第一次请求
-	req, err := http.NewRequest(http.MethodGet, conf.School.MangerURL+"eams/login.action", nil)
+	req, err := http.NewRequest(http.MethodGet, conf.MangerURL+"eams/login.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_1: ", err.Error())
 		//return
@@ -64,7 +67,7 @@ func GetPhoto(UserName, PassWord string) string {
 	formValues.Set("password", PASS)
 	formValues.Set("session_locale", "zh_CN")
 	time.Sleep(1000 * time.Millisecond)
-	req, err = http.NewRequest(http.MethodPost, "http://szyjxgl.sict.edu.cn:9000/eams/login.action", strings.NewReader(formValues.Encode()))
+	req, err = http.NewRequest(http.MethodPost, conf.MangerURL+"eams/login.action", strings.NewReader(formValues.Encode()))
 	if err != nil {
 		fmt.Println("ERROR_5: ", err.Error())
 		//return
@@ -91,7 +94,7 @@ func GetPhoto(UserName, PassWord string) string {
 		//return
 	}
 	time.Sleep(1000 * time.Millisecond)
-	req, err = http.NewRequest(http.MethodGet, "http://szyjxgl.sict.edu.cn:9000/eams/showSelfAvatar.action?user.name="+USER, nil)
+	req, err = http.NewRequest(http.MethodGet, conf.MangerURL+"eams/showSelfAvatar.action?user.name="+USER, nil)
 	if err != nil {
 		fmt.Println("ERROR_9: ", err.Error())
 		//return
@@ -111,7 +114,7 @@ func GetPhoto(UserName, PassWord string) string {
 	}
 
 	temp = base64.StdEncoding.EncodeToString(content)
-	req, err = http.NewRequest(http.MethodGet, "http://szyjxgl.sict.edu.cn:9000/eams/logout.action", nil)
+	req, err = http.NewRequest(http.MethodGet, conf.MangerURL+"eams/logout.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_12: ", err.Error())
 		//return
@@ -123,5 +126,7 @@ func GetPhoto(UserName, PassWord string) string {
 		//return
 	}
 	defer resp5.Body.Close()
-	return "data:image/jpg;base64," + temp
+	myPhotoResult.Data = "data:image/jpg;base64," + temp
+	js, err := json.MarshalIndent(myPhotoResult, "", "\t")
+	return B2S(js) //Write cache in here
 }

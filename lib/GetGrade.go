@@ -31,8 +31,10 @@ func GetGrade(UserName, PassWord string) string {
 	PASSWORD := PassWord
 	var grades []GradeStruct
 	var myGrade GradeStruct
+	var gradeResult GradeResult
 	// Cookie自动维护
 	cookieJar, err := cookiejar.New(nil)
+	gradeResult.Type = "grade"
 	if err != nil {
 		fmt.Println("ERROR_0: ", err.Error())
 		//return
@@ -41,7 +43,7 @@ func GetGrade(UserName, PassWord string) string {
 	client.Jar = cookieJar
 
 	// 第一次请求
-	req, err := http.NewRequest(http.MethodGet, conf.School.MangerURL+"eams/login.action", nil)
+	req, err := http.NewRequest(http.MethodGet, conf.MangerURL+"eams/login.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_1: ", err.Error())
 		//return
@@ -76,7 +78,7 @@ func GetGrade(UserName, PassWord string) string {
 	formValues.Set("password", PASSWORD)
 	formValues.Set("session_locale", "zh_CN")
 	time.Sleep(time.Duration(1000 * time.Millisecond))
-	req, err = http.NewRequest(http.MethodPost, conf.School.MangerURL+"eams/login.action", strings.NewReader(formValues.Encode()))
+	req, err = http.NewRequest(http.MethodPost, conf.MangerURL+"eams/login.action", strings.NewReader(formValues.Encode()))
 	if err != nil {
 		fmt.Println("ERROR_5: ", err.Error())
 		//return
@@ -103,7 +105,7 @@ func GetGrade(UserName, PassWord string) string {
 		//return
 	}
 	time.Sleep(1000 * time.Millisecond)
-	req, err = http.NewRequest(http.MethodPost, conf.School.MangerURL+"eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR", strings.NewReader(formValues.Encode()))
+	req, err = http.NewRequest(http.MethodPost, conf.MangerURL+"eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR", strings.NewReader(formValues.Encode()))
 	if err != nil {
 		fmt.Println("ERROR_13: ", err.Error())
 		//return
@@ -145,7 +147,7 @@ func GetGrade(UserName, PassWord string) string {
 		myGrade.GradePoint = strings.Trim(fuck[len(fuck)-1][1], "\t\n")
 		grades = append(grades, myGrade)
 	}
-	req, err = http.NewRequest(http.MethodGet, conf.School.MangerURL+"eams/logout.action", nil)
+	req, err = http.NewRequest(http.MethodGet, conf.MangerURL+"eams/logout.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_17: ", err.Error())
 	}
@@ -156,6 +158,7 @@ func GetGrade(UserName, PassWord string) string {
 		//return
 	}
 	defer resp5.Body.Close()
-	js, err := json.MarshalIndent(grades, "", "\t")
+	gradeResult.Data = grades
+	js, err := json.MarshalIndent(gradeResult, "", "\t")
 	return B2S(js)
 }

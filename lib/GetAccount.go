@@ -32,9 +32,11 @@ type StudentStruct struct {
 func GetAccount(UserName, PassWord string) string {
 	// 获取用户名和密码
 	var myStudent StudentStruct
+	var myAccountResult AccountResult
 	USER := UserName
 	PASS := PassWord
 	conf := ReadConfig()
+	myAccountResult.Type = "account"
 	// Cookie自动维护
 	cookieJar, err := cookiejar.New(nil)
 	if err != nil {
@@ -45,7 +47,7 @@ func GetAccount(UserName, PassWord string) string {
 	client.Jar = cookieJar
 
 	// 第一次请求
-	req, err := http.NewRequest(http.MethodGet, conf.School.MangerURL+"eams/login.action", nil)
+	req, err := http.NewRequest(http.MethodGet, conf.MangerURL+"eams/login.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_1: ", err.Error())
 		//return
@@ -81,7 +83,7 @@ func GetAccount(UserName, PassWord string) string {
 	formValues.Set("password", PASS)
 	formValues.Set("session_locale", "zh_CN")
 	time.Sleep(1000 * time.Millisecond)
-	req, err = http.NewRequest(http.MethodPost, "http://szyjxgl.sict.edu.cn:9000/eams/login.action", strings.NewReader(formValues.Encode()))
+	req, err = http.NewRequest(http.MethodPost, conf.MangerURL+"eams/login.action", strings.NewReader(formValues.Encode()))
 	if err != nil {
 		fmt.Println("ERROR_5: ", err.Error())
 		//return
@@ -108,7 +110,7 @@ func GetAccount(UserName, PassWord string) string {
 		//return
 	}
 	time.Sleep(1000 * time.Millisecond)
-	req, err = http.NewRequest(http.MethodGet, "http://szyjxgl.sict.edu.cn:9000/eams/stdDetail.action", nil)
+	req, err = http.NewRequest(http.MethodGet, conf.MangerURL+"eams/stdDetail.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_9: ", err.Error())
 		//return
@@ -128,7 +130,7 @@ func GetAccount(UserName, PassWord string) string {
 	}
 
 	temp = string(content)
-	req, err = http.NewRequest(http.MethodGet, "http://szyjxgl.sict.edu.cn:9000/eams/logout.action", nil)
+	req, err = http.NewRequest(http.MethodGet, conf.MangerURL+"eams/logout.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_12: ", err.Error())
 		//return
@@ -153,6 +155,7 @@ func GetAccount(UserName, PassWord string) string {
 	myStudent.System = stuinfo[8][1]
 	myStudent.Specialty = stuinfo[9][1]
 	myStudent.Class = stuinfo[18][1]
-	js, err := json.MarshalIndent(myStudent, "", "\t")
+	myAccountResult.Data = myStudent
+	js, err := json.MarshalIndent(myAccountResult, "", "\t")
 	return B2S(js)
 }

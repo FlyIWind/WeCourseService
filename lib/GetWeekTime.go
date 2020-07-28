@@ -1,6 +1,7 @@
 package lib
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"math"
@@ -10,6 +11,8 @@ import (
 )
 
 func GetWeekTime(startTime string) string {
+	var timeReuslt TimeResult
+	timeReuslt.Type = "week"
 	timeTemplate := "2006-01-02 15:04:05"
 	now, _ := time.Parse(timeTemplate, startTime+" 00:00:00")
 	offset := int(time.Monday - now.Weekday())
@@ -20,7 +23,9 @@ func GetWeekTime(startTime string) string {
 	nowtime := time.Now()
 	week := (float64(nowtime.Unix()) - float64(monday.Unix())) / 604800
 	week = math.Ceil(week)
-	return strconv.Itoa(int(week))
+	timeReuslt.Data = strconv.Itoa(int(week))
+	js, _ := json.MarshalIndent(timeReuslt, "", "\t")
+	return B2S(js)
 }
 
 func GetWeekTimeOld(serverIP, startTime string) string {

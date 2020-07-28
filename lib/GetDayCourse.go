@@ -17,17 +17,21 @@ type DayCourse struct {
 
 var ToDayCourse []DayCourse
 var thisCourse DayCourse
+var dayCourseResult DayCourseResult
 
 func GetDayCourse(UserName, PassWord string) string {
 	var allCourses []Course
+	var tmpDayResult CourseResult
+	dayCourseResult.Type = "daycourse"
 	conf := ReadConfig()
 	var cstr string = GetCourse(UserName, PassWord)
-	err := json.Unmarshal([]byte(cstr), &allCourses)
+	err := json.Unmarshal([]byte(cstr), &tmpDayResult)
 	if err != nil {
 		fmt.Println(err)
 	}
+	allCourses = tmpDayResult.Data
 	for _, c1 := range allCourses {
-		schoolWeek := GetWeekTime(conf.School.CalendarFirst)
+		schoolWeek := GetWeekTime(conf.CalendarFirst)
 		serverWeek := GetWeekDay()
 		intWeek, _ := strconv.Atoi(schoolWeek)
 		if c1.Weeks[intWeek] == '1' {
@@ -45,7 +49,8 @@ func GetDayCourse(UserName, PassWord string) string {
 			}
 		}
 	}
-	js, _ := json.MarshalIndent(ToDayCourse, "", "\t")
+	dayCourseResult.Data = ToDayCourse
+	js, _ := json.MarshalIndent(dayCourseResult, "", "\t")
 	return B2S(js)
 }
 

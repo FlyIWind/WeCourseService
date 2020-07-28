@@ -3,17 +3,17 @@ package main
 import (
 	"fmt"
 	"github.com/FlyIWind/WeCourseService/lib"
+	"strconv"
 )
 
 func main() {
 	conf := lib.ReadConfig()
-	fmt.Println("学校名称：" + conf.School.SchoolName)
-	switch conf.School.MangerType {
+	fmt.Println("学校名称：" + conf.SchoolName)
+	switch conf.MangerType {
 	case "supwisdom":
 		fmt.Println("教务系统：树维教务系统")
 		break
 	}
-	nowWeek := lib.GetWeekTime(conf.School.CalendarFirst)
-	fmt.Println("当前教学周：" + nowWeek)
+	fmt.Println("绑定端口：" + strconv.Itoa(conf.SocketPort))
 	lib.StartWebSocket()
 }

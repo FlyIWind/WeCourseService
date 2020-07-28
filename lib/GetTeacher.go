@@ -28,6 +28,7 @@ func GetTeacher(UserName, PassWord string) string {
 	PASSWORD := PassWord
 	var teachers []TeacherStruct
 	var myTeacher TeacherStruct
+	var teacherResult TeacherResult
 	// Cookie自动维护
 	cookieJar, err := cookiejar.New(nil)
 	if err != nil {
@@ -36,9 +37,9 @@ func GetTeacher(UserName, PassWord string) string {
 	}
 	var client http.Client
 	client.Jar = cookieJar
-
+	teacherResult.Type = "teacher"
 	// 第一次请求
-	req, err := http.NewRequest(http.MethodGet, conf.School.MangerURL+"eams/login.action", nil)
+	req, err := http.NewRequest(http.MethodGet, conf.MangerURL+"eams/login.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_1: ", err.Error())
 		//return
@@ -73,7 +74,7 @@ func GetTeacher(UserName, PassWord string) string {
 	formValues.Set("password", PASSWORD)
 	formValues.Set("session_locale", "zh_CN")
 	time.Sleep(time.Duration(1000 * time.Millisecond))
-	req, err = http.NewRequest(http.MethodPost, conf.School.MangerURL+"eams/login.action", strings.NewReader(formValues.Encode()))
+	req, err = http.NewRequest(http.MethodPost, conf.MangerURL+"eams/login.action", strings.NewReader(formValues.Encode()))
 	if err != nil {
 		fmt.Println("ERROR_5: ", err.Error())
 		//return
@@ -100,7 +101,7 @@ func GetTeacher(UserName, PassWord string) string {
 		//return
 	}
 	time.Sleep(1000 * time.Millisecond)
-	req, err = http.NewRequest(http.MethodGet, conf.School.MangerURL+"eams/courseTableForStd.action", nil)
+	req, err = http.NewRequest(http.MethodGet, conf.MangerURL+"eams/courseTableForStd.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_9: ", err.Error())
 		//return
@@ -134,7 +135,7 @@ func GetTeacher(UserName, PassWord string) string {
 	formValues.Set("startWeek", "")
 	formValues.Set("semester.id", "30")
 	formValues.Set("ids", ids)
-	req, err = http.NewRequest(http.MethodPost, conf.School.MangerURL+"eams/courseTableForStd!courseTable.action", strings.NewReader(formValues.Encode()))
+	req, err = http.NewRequest(http.MethodPost, conf.MangerURL+"eams/courseTableForStd!courseTable.action", strings.NewReader(formValues.Encode()))
 	if err != nil {
 		fmt.Println("ERROR_13: ", err.Error())
 		//return
@@ -172,7 +173,7 @@ func GetTeacher(UserName, PassWord string) string {
 		myTeacher.CourseTeacher = teacher[4][1]
 		teachers = append(teachers, myTeacher)
 	}
-	req, err = http.NewRequest(http.MethodGet, conf.School.MangerURL+"eams/logout.action", nil)
+	req, err = http.NewRequest(http.MethodGet, conf.MangerURL+"eams/logout.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_17: ", err.Error())
 		//return
@@ -184,7 +185,8 @@ func GetTeacher(UserName, PassWord string) string {
 		//return
 	}
 	defer resp5.Body.Close()
-	js, err := json.MarshalIndent(teachers, "", "\t")
+	teacherResult.Data = teachers
+	js, err := json.MarshalIndent(teacherResult, "", "\t")
 	return B2S(js)
 
 }

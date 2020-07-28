@@ -6,15 +6,12 @@ import (
 	"io/ioutil"
 )
 
-type schoolConfig struct {
+type Config struct {
 	SchoolName    string
 	MangerType    string
 	MangerURL     string
 	CalendarFirst string
-}
-
-type Config struct {
-	School schoolConfig
+	SocketPort    int
 }
 
 func ReadConfig() Config {
