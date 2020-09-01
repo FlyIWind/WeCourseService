@@ -38,11 +38,18 @@ func GetWeekCourse(UserName string, PassWord string, WeekDay int) string {
 			arr := GetTeacherObj()
 			for _, thisteacher := range arr {
 				if strings.Contains(c1.CourseID, thisteacher.CourseID) {
+					tmpCourse.TimeOfTheDay = ""
 					tmpCourse.TeacherName = thisteacher.CourseTeacher
 					tmpCourse.CourseName = thisteacher.CourseName
 					tmpCourse.RoomName = c1.RoomName
 					tmpCourse.DayOfTheWeek = c1.CourseTimes[0].DayOfTheWeek
-					tmpCourse.TimeOfTheDay = strconv.Itoa(c1.CourseTimes[0].TimeOfTheDay+1) + "," + strconv.Itoa(c1.CourseTimes[1].TimeOfTheDay+1)
+					for _,thistime := range c1.CourseTimes{
+						tmpCourse.TimeOfTheDay = tmpCourse.TimeOfTheDay + strconv.Itoa(thistime.TimeOfTheDay+1) + ","
+					}
+					tmpCourse.TimeOfTheDay = strings.TrimRight(tmpCourse.TimeOfTheDay,",")
+					//fmt.Println(tmpCourse.CourseName)
+					//fmt.Println(c1.CourseTimes)
+					//fmt.Println(tmpCourse.TimeOfTheDay)
 					myWeekCourse = append(myWeekCourse, tmpCourse)
 				}
 			}
