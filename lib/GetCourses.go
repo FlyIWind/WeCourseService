@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/patrickmn/go-cache"
 	"io/ioutil"
 	"net/http"
 	"net/http/cookiejar"
@@ -36,6 +37,7 @@ var myCourses []Course
 var teachers []TeacherStruct
 var myTeacher TeacherStruct
 var myAllCourseResult CourseResult
+var c = cache.New(1*time.Hour, 10*time.Minute)
 
 func B2S(bs []byte) string {
 	ba := []byte{}
@@ -48,6 +50,11 @@ func GetTeacherObj() []TeacherStruct {
 	return teachers
 }
 func GetCourse(UserName, PassWord string) string {
+	value, found := c.Get(UserName)
+	if found {
+		//fmt.Print("Using Cache")
+		return value.(string)
+	}
 	//readcache in there
 	// 获取用户名和密码
 	conf := ReadConfig()
@@ -55,6 +62,7 @@ func GetCourse(UserName, PassWord string) string {
 	PASSWORD := PassWord
 	myCourses = nil
 	teachers = nil
+
 	myAllCourseResult.Type = "allcourse"
 	// Cookie自动维护
 	cookieJar, err := cookiejar.New(nil)
@@ -235,6 +243,8 @@ func GetCourse(UserName, PassWord string) string {
 	defer resp5.Body.Close()
 	myAllCourseResult.Data = myCourses
 	js, err := json.MarshalIndent(myAllCourseResult, "", "\t")
-	return B2S(js) //Write cache in here
+	cachestr := B2S(js)
+	c.Set(UserName, cachestr, cache.DefaultExpiration)
+	return cachestr
 
 }
