@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e7947e02-7040-4ad6-9b99-704d53fbd43b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/GetCourses.go" beforeDir="false" afterPath="$PROJECT_DIR$/lib/GetCourses.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/WebSocket.go" beforeDir="false" afterPath="$PROJECT_DIR$/lib/WebSocket.go" afterDir="false" />
     </list>

@@ -53,7 +53,9 @@ func GetCourse(UserName, PassWord string) string {
 	value, found := c.Get(UserName)
 	if found {
 		//fmt.Print("Using Cache")
-		return value.(string)
+		if(value.(string)!=""){
+			return value.(string)
+		}
 	}
 	//readcache in there
 	// 获取用户名和密码
@@ -245,6 +247,13 @@ func GetCourse(UserName, PassWord string) string {
 	js, err := json.MarshalIndent(myAllCourseResult, "", "\t")
 	cachestr := B2S(js)
 	c.Set(UserName, cachestr, cache.DefaultExpiration)
+	value_check, found_check := c.Get(UserName)
+	if found_check {
+		//fmt.Print("Using Cache")
+		if(value_check.(string)==""){
+			c.Set(UserName, cachestr, cache.DefaultExpiration)
+		}
+	}
 	return cachestr
 
 }

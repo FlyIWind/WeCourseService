@@ -16,7 +16,7 @@ type userlogin struct {
 	Week     int
 }
 
-var build string = "202009181517-GoCache"
+var build string = "202009211723-GoCache"
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
