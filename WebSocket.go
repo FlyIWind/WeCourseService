@@ -1,4 +1,4 @@
-package lib
+package main
 
 import (
 	"encoding/json"
@@ -16,7 +16,7 @@ type userlogin struct {
 	Week     int
 }
 
-var build string = "202009211723-GoCache"
+var build string = "202011211630-Fixed"
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -45,6 +45,10 @@ func StartWebSocket() {
 			}
 			if u.Type == "course" {
 				var cstr string = GetWeekCourse(u.UserName, u.PassWord, u.Week)
+				_ = conn.WriteMessage(msgType, []byte(cstr))
+			}
+			if u.Type == "weekcourse" {
+				var cstr string = GetWeekCourseNew(u.UserName, u.PassWord, u.Week)
 				_ = conn.WriteMessage(msgType, []byte(cstr))
 			}
 			if u.Type == "account" {

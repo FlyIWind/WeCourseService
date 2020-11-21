@@ -1,34 +1,71 @@
-package lib
+package main
 
 import (
 	"crypto/sha1"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/patrickmn/go-cache/go-cache"
 	"io/ioutil"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 )
 
-type TeacherStruct struct {
-	CourseID      string
-	CourseName    string
-	CourseCredit  string
-	CourseTeacher string
+// 课程持续时间，周几第几节
+type CourseTime struct {
+	DayOfTheWeek int
+	TimeOfTheDay int
 }
 
-func GetTeacher(UserName, PassWord string) string {
+// 课程信息
+type Course struct {
+	CourseID    string
+	CourseName  string
+	RoomID      string
+	RoomName    string
+	Weeks       string
+	CourseTimes []CourseTime
+}
+
+var USERNAME, PASSWORD string
+var myCourses []Course
+var teachers []TeacherStruct
+var myTeacher TeacherStruct
+var myAllCourseResult CourseResult
+var c = cache.New(1*time.Hour, 10*time.Minute)
+
+func B2S(bs []byte) string {
+	ba := []byte{}
+	for _, b := range bs {
+		ba = append(ba, byte(b))
+	}
+	return string(ba)
+}
+func GetTeacherObj() []TeacherStruct {
+	return teachers
+}
+func GetCourse(UserName, PassWord string) string {
+	value, found := c.Get(UserName)
+	if found {
+		//fmt.Print("Using Cache")
+		if value.(string) != "" {
+			return value.(string)
+		}
+	}
+	//readcache in there
 	// 获取用户名和密码
 	conf := ReadConfig()
 	USERNAME := UserName
 	PASSWORD := PassWord
-	var teachers []TeacherStruct
-	var myTeacher TeacherStruct
-	var teacherResult TeacherResult
+	myCourses = nil
+	teachers = nil
+
+	myAllCourseResult.Type = "allcourse"
 	// Cookie自动维护
 	cookieJar, err := cookiejar.New(nil)
 	if err != nil {
@@ -37,7 +74,7 @@ func GetTeacher(UserName, PassWord string) string {
 	}
 	var client http.Client
 	client.Jar = cookieJar
-	teacherResult.Type = "teacher"
+
 	// 第一次请求
 	req, err := http.NewRequest(http.MethodGet, conf.MangerURL+"eams/login.action", nil)
 	if err != nil {
@@ -160,6 +197,8 @@ func GetTeacher(UserName, PassWord string) string {
 		fmt.Println("ERROR_16: Get Courses Failed")
 		//return
 	}
+	reg1 := regexp.MustCompile(`TaskActivity\(actTeacherId.join\(','\),actTeacherName.join\(','\),"(.*)","(.*)\(.*\)","(.*)","(.*)","(.*)",null,null,assistantName,"",""\);((?:\s*index =\d+\*unitCount\+\d+;\s*.*\s)+)`)
+	reg2 := regexp.MustCompile(`\s*index =(\d+)\*unitCount\+(\d+);\s*`)
 	reg3 := regexp.MustCompile(`(?i)<td>(\d)</td>\s*<td>([:alpha:].+)</td>\s*<td>(.+)</td>\s*<td>((\d)|(\d\.\d))</td>\s*<td>\s*<a href=.*\s.*\s.*\s.*>.*</a>\s*</td>\s*<td>(.*)</td>`)
 	reg4 := regexp.MustCompile(`(?i)<td>([^>]*)</td>`)
 	reg5 := regexp.MustCompile(`(?i)>([^>]*)</a>`)
@@ -173,6 +212,25 @@ func GetTeacher(UserName, PassWord string) string {
 		myTeacher.CourseTeacher = teacher[4][1]
 		teachers = append(teachers, myTeacher)
 	}
+	coursesStr := reg1.FindAllStringSubmatch(temp, -1)
+	for _, courseStr := range coursesStr {
+		var course Course
+		course.CourseID = courseStr[1]
+		course.CourseName = courseStr[2]
+		course.RoomID = courseStr[3]
+		course.RoomName = courseStr[4]
+		course.Weeks = courseStr[5]
+		for _, indexStr := range strings.Split(courseStr[6], "table0.activities[index][table0.activities[index].length]=activity;") {
+			if !strings.Contains(indexStr, "unitCount") {
+				continue
+			}
+			var courseTime CourseTime
+			courseTime.DayOfTheWeek, _ = strconv.Atoi(reg2.FindStringSubmatch(indexStr)[1])
+			courseTime.TimeOfTheDay, _ = strconv.Atoi(reg2.FindStringSubmatch(indexStr)[2])
+			course.CourseTimes = append(course.CourseTimes, courseTime)
+		}
+		myCourses = append(myCourses, course)
+	}
 	req, err = http.NewRequest(http.MethodGet, conf.MangerURL+"eams/logout.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_17: ", err.Error())
@@ -185,8 +243,17 @@ func GetTeacher(UserName, PassWord string) string {
 		//return
 	}
 	defer resp5.Body.Close()
-	teacherResult.Data = teachers
-	js, err := json.MarshalIndent(teacherResult, "", "\t")
-	return B2S(js)
+	myAllCourseResult.Data = myCourses
+	js, err := json.MarshalIndent(myAllCourseResult, "", "\t")
+	cachestr := B2S(js)
+	c.Set(UserName, cachestr, cache.DefaultExpiration)
+	value_check, found_check := c.Get(UserName)
+	if found_check {
+		//fmt.Print("Using Cache")
+		if value_check.(string) == "" {
+			c.Set(UserName, cachestr, cache.DefaultExpiration)
+		}
+	}
+	return cachestr
 
 }

@@ -1,9 +1,13 @@
-package lib
+package main
 
 /*
 为对付uni-app及微信小程序只能创建一个websocket链接的弱智举动，特针对返回JSON进行统一格式管理
 由于Golang没有object，临时想出这个办法管理返回
 */
+type WeekCourseResultNew struct {
+	Type string
+	Data []WeekCourseNew
+}
 type WeekCourseResult struct {
 	Type string
 	Data []WeekCourse

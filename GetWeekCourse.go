@@ -1,4 +1,4 @@
-package lib
+package main
 
 import (
 	"encoding/json"
@@ -43,13 +43,10 @@ func GetWeekCourse(UserName string, PassWord string, WeekDay int) string {
 					tmpCourse.CourseName = thisteacher.CourseName
 					tmpCourse.RoomName = c1.RoomName
 					tmpCourse.DayOfTheWeek = c1.CourseTimes[0].DayOfTheWeek
-					for _,thistime := range c1.CourseTimes{
+					for _, thistime := range c1.CourseTimes {
 						tmpCourse.TimeOfTheDay = tmpCourse.TimeOfTheDay + strconv.Itoa(thistime.TimeOfTheDay+1) + ","
 					}
-					tmpCourse.TimeOfTheDay = strings.TrimRight(tmpCourse.TimeOfTheDay,",")
-					//fmt.Println(tmpCourse.CourseName)
-					//fmt.Println(c1.CourseTimes)
-					//fmt.Println(tmpCourse.TimeOfTheDay)
+					tmpCourse.TimeOfTheDay = strings.TrimRight(tmpCourse.TimeOfTheDay, ",")
 					myWeekCourse = append(myWeekCourse, tmpCourse)
 				}
 			}

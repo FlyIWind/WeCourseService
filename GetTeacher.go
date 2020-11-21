@@ -1,4 +1,4 @@
-package lib
+package main
 
 import (
 	"crypto/sha1"
@@ -14,34 +14,30 @@ import (
 	"time"
 )
 
-type GradeStruct struct {
-	CourseID     string
-	CourseName   string
-	CourseTerm   string
-	CourseCredit string
-	CourseGrade  string
-	GradePoint   string
+type TeacherStruct struct {
+	CourseID      string
+	CourseName    string
+	CourseCredit  string
+	CourseTeacher string
 }
 
-//TODO:Fill Struct Array
-func GetGrade(UserName, PassWord string) string {
+func GetTeacher(UserName, PassWord string) string {
 	// 获取用户名和密码
 	conf := ReadConfig()
 	USERNAME := UserName
 	PASSWORD := PassWord
-	var grades []GradeStruct
-	var myGrade GradeStruct
-	var gradeResult GradeResult
+	var teachers []TeacherStruct
+	var myTeacher TeacherStruct
+	var teacherResult TeacherResult
 	// Cookie自动维护
 	cookieJar, err := cookiejar.New(nil)
-	gradeResult.Type = "grade"
 	if err != nil {
 		fmt.Println("ERROR_0: ", err.Error())
 		//return
 	}
 	var client http.Client
 	client.Jar = cookieJar
-
+	teacherResult.Type = "teacher"
 	// 第一次请求
 	req, err := http.NewRequest(http.MethodGet, conf.MangerURL+"eams/login.action", nil)
 	if err != nil {
@@ -105,7 +101,41 @@ func GetGrade(UserName, PassWord string) string {
 		//return
 	}
 	time.Sleep(1000 * time.Millisecond)
-	req, err = http.NewRequest(http.MethodPost, conf.MangerURL+"eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR", strings.NewReader(formValues.Encode()))
+	req, err = http.NewRequest(http.MethodGet, conf.MangerURL+"eams/courseTableForStd.action", nil)
+	if err != nil {
+		fmt.Println("ERROR_9: ", err.Error())
+		//return
+	}
+
+	resp3, err := client.Do(req)
+	if err != nil {
+		fmt.Println("ERROR_10: ", err.Error())
+		//return
+	}
+
+	defer resp3.Body.Close()
+	content, err = ioutil.ReadAll(resp3.Body)
+	if err != nil {
+		fmt.Println("ERROR_11: ", err.Error())
+		//return
+	}
+
+	temp = string(content)
+	if !strings.Contains(temp, "bg.form.addInput(form,\"ids\",\"") {
+		fmt.Println("ERROR_12: GET ids Failed")
+		//return
+	}
+
+	temp = temp[strings.Index(temp, "bg.form.addInput(form,\"ids\",\"")+29 : strings.Index(temp, "bg.form.addInput(form,\"ids\",\"")+50]
+	ids := temp[:strings.Index(temp, "\");")]
+	formValues = make(url.Values)
+	formValues.Set("ignoreHead", "1")
+	formValues.Set("showPrintAndExport", "1")
+	formValues.Set("setting.kind", "std")
+	formValues.Set("startWeek", "")
+	formValues.Set("semester.id", "30")
+	formValues.Set("ids", ids)
+	req, err = http.NewRequest(http.MethodPost, conf.MangerURL+"eams/courseTableForStd!courseTable.action", strings.NewReader(formValues.Encode()))
 	if err != nil {
 		fmt.Println("ERROR_13: ", err.Error())
 		//return
@@ -126,30 +156,27 @@ func GetGrade(UserName, PassWord string) string {
 	}
 
 	temp = string(content)
-	reg3 := regexp.MustCompile(`(?i)<tr>[\s\S]*?</tr>`)
-	reg4 := regexp.MustCompile(`(?i)<td.*>([^>]*)</td>`)
-	reg5 := regexp.MustCompile(`(?i)<sup.*>([^>]*)</sup>`)
-	gradeStr := reg3.FindAllStringSubmatch(temp, -1)
-	gradeStr = append(gradeStr[:0], gradeStr[0+1:]...)
-	gradeStr = append(gradeStr[:0], gradeStr[0+1:]...)
-	for _, tempStr := range gradeStr {
-		fuck := reg4.FindAllStringSubmatch(tempStr[0], -1)
-		myGrade.CourseTerm = strings.Trim(fuck[0][1], "\n")
-		myGrade.CourseID = strings.Trim(fuck[1][1], "\n")
-		myGrade.CourseCredit = strings.Trim(fuck[4][1], "\n")
-		bodyclass := reg5.FindAllStringSubmatch(tempStr[0], -1)
-		if len(bodyclass) != 0 {
-			myGrade.CourseName = bodyclass[0][1]
-		} else {
-			myGrade.CourseName = strings.Trim(fuck[3][1], "\t\r\n")
-		}
-		myGrade.CourseGrade = strings.Trim(fuck[len(fuck)-2][1], "\t\n")
-		myGrade.GradePoint = strings.Trim(fuck[len(fuck)-1][1], "\t\n")
-		grades = append(grades, myGrade)
+	if !strings.Contains(temp, "课表格式说明") {
+		fmt.Println("ERROR_16: Get Courses Failed")
+		//return
+	}
+	reg3 := regexp.MustCompile(`(?i)<td>(\d)</td>\s*<td>([:alpha:].+)</td>\s*<td>(.+)</td>\s*<td>((\d)|(\d\.\d))</td>\s*<td>\s*<a href=.*\s.*\s.*\s.*>.*</a>\s*</td>\s*<td>(.*)</td>`)
+	reg4 := regexp.MustCompile(`(?i)<td>([^>]*)</td>`)
+	reg5 := regexp.MustCompile(`(?i)>([^>]*)</a>`)
+	teanchersStr := reg3.FindAllStringSubmatch(temp, -1)
+	for _, teacherStr := range teanchersStr {
+		teacher := reg4.FindAllStringSubmatch(teacherStr[0], -1)
+		courseid := reg5.FindAllStringSubmatch(teacherStr[0], -1)
+		myTeacher.CourseID = courseid[0][1]
+		myTeacher.CourseName = teacher[2][1]
+		myTeacher.CourseCredit = teacher[3][1]
+		myTeacher.CourseTeacher = teacher[4][1]
+		teachers = append(teachers, myTeacher)
 	}
 	req, err = http.NewRequest(http.MethodGet, conf.MangerURL+"eams/logout.action", nil)
 	if err != nil {
 		fmt.Println("ERROR_17: ", err.Error())
+		//return
 	}
 
 	resp5, err := client.Do(req)
@@ -158,7 +185,8 @@ func GetGrade(UserName, PassWord string) string {
 		//return
 	}
 	defer resp5.Body.Close()
-	gradeResult.Data = grades
-	js, err := json.MarshalIndent(gradeResult, "", "\t")
+	teacherResult.Data = teachers
+	js, err := json.MarshalIndent(teacherResult, "", "\t")
 	return B2S(js)
+
 }

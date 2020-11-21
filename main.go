@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/FlyIWind/WeCourseService/lib"
 	"strconv"
 )
 
 func main() {
-	conf := lib.ReadConfig()
+	conf := ReadConfig()
 	fmt.Println("学校名称：" + conf.SchoolName)
 	switch conf.MangerType {
 	case "supwisdom":
@@ -15,5 +14,5 @@ func main() {
 		break
 	}
 	fmt.Println("绑定端口：" + strconv.Itoa(conf.SocketPort))
-	lib.StartWebSocket()
+	StartWebSocket()
 }

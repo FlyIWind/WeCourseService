@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="e7947e02-7040-4ad6-9b99-704d53fbd43b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/GetCourses.go" beforeDir="false" afterPath="$PROJECT_DIR$/lib/GetCourses.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/WebSocket.go" beforeDir="false" afterPath="$PROJECT_DIR$/lib/WebSocket.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GetWeekCourseNew.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/CetConfig.go" beforeDir="false" afterPath="$PROJECT_DIR$/CetConfig.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/GetAccount.go" beforeDir="false" afterPath="$PROJECT_DIR$/GetAccount.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/GetCourses.go" beforeDir="false" afterPath="$PROJECT_DIR$/GetCourses.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/GetDayCourse.go" beforeDir="false" afterPath="$PROJECT_DIR$/GetDayCourse.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/GetGrade.go" beforeDir="false" afterPath="$PROJECT_DIR$/GetGrade.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/GetLogin.go" beforeDir="false" afterPath="$PROJECT_DIR$/GetLogin.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/GetPhoto.go" beforeDir="false" afterPath="$PROJECT_DIR$/GetPhoto.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/GetTeacher.go" beforeDir="false" afterPath="$PROJECT_DIR$/GetTeacher.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/GetWeekCourse.go" beforeDir="false" afterPath="$PROJECT_DIR$/GetWeekCourse.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/GetWeekTime.go" beforeDir="false" afterPath="$PROJECT_DIR$/GetWeekTime.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/JsonResult.go" beforeDir="false" afterPath="$PROJECT_DIR$/JsonResult.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/WebSocket.go" beforeDir="false" afterPath="$PROJECT_DIR$/WebSocket.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
   </component>
   <component name="GOROOT" path="C:\Go" />
   <component name="Git.Settings">
@@ -20,17 +60,73 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\WorkStation\go\src\github.com\FlyIWind\WeCourseService" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="WeCourseService" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <package value="github.com/FlyIWind/WeCourseService" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build main.go" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="WindowStateProjectService">
+    <state width="1397" height="222" key="GridCell.Tab.0.bottom" timestamp="1605941573670">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1397" height="222" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1605941573670" />
+    <state width="1397" height="222" key="GridCell.Tab.0.center" timestamp="1605941573670">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1397" height="222" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1605941573670" />
+    <state width="1397" height="222" key="GridCell.Tab.0.left" timestamp="1605941573670">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1397" height="222" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1605941573670" />
+    <state width="1397" height="222" key="GridCell.Tab.0.right" timestamp="1605941573670">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1397" height="222" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1605941573670" />
     <state x="523" y="122" key="refactoring.ChangeSignatureDialog" timestamp="1600412966504">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
